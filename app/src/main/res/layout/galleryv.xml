@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#000">
+    <LinearLayout
+        android:animateLayoutChanges="true"
+        android:alpha="0.8"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/altbar"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/altbar">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+        <Button
+            android:id="@+id/reload"
+            android:alpha="1.0"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/dkplayer_ic_action_replay" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#fff"
+
+                android:text="Geri Yükle" />
+        </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingLeft="20dp"
+        android:orientation="vertical">
+        <Button
+            android:id="@+id/delete"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:alpha="1.0"
+            android:layout_marginTop="5dp"
+            android:background="@android:drawable/ic_menu_delete"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#fff"
+            android:text="Öğeyi Sil" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingLeft="20dp"
+        android:orientation="vertical">
+        <Button
+            android:id="@+id/share"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:alpha="1.0"
+            android:layout_marginTop="5dp"
+            android:background="@android:drawable/ic_menu_share"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#fff"
+            android:text="Paylaş" />
+    </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:animateLayoutChanges="true"
+        android:alpha="0.8"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:id="@+id/ustbar"
+        android:background="@drawable/ustbar">
+
+        <Button
+            android:id="@+id/backButton"
+            android:layout_marginTop="25dp"
+            android:layout_marginLeft="13dp"            android:layout_marginBottom="5dp"
+            android:alpha="1.0"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/arrow_back" />
+    </LinearLayout>
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/viewPager" />
+
+</RelativeLayout>

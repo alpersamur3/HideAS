@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/purple">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/icon_shield"
+                android:layout_width="84dp"
+                android:layout_height="84dp"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/icon"
+                android:layout_gravity="center"
+                android:layout_marginTop="40dp"/>
+
+            <TextView
+                android:layout_width = "match_parent"
+                android:layout_height = "wrap_content"
+                android:width = "0dp"
+                android:layout_below="@+id/icon_shield"
+                android:layout_centerHorizontal="true"
+                android:fontFamily="sans-serif-bold"
+                android:gravity="center"
+                android:maxLines="1"
+                android:text="HideAS'a Hoşgeldiniz :)"
+                android:textColor="@color/white"
+                android:layout_gravity="center"
+                android:textSize="25sp"
+                android:layout_marginTop="10dp"/>
+
+        <TextView
+            android:id="@+id/first_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="casual"
+            android:layout_gravity="center"
+            android:width="0dp"
+            android:ellipsize="marquee"
+            android:gravity="center"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:layout_marginTop="30dp"
+            android:paddingRight="5dp"
+            android:paddingLeft="5dp"/>
+
+            <TextView
+                android:id="@+id/danger"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="casual"
+                android:layout_gravity="center"
+                android:width="0dp"
+                android:ellipsize="marquee"
+                android:gravity="center"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:textColor="#ff0000"
+                android:textSize="15sp"
+                android:layout_marginTop="30dp"
+                android:paddingRight="5dp"
+                android:paddingLeft="5dp"/>
+
+        <TextView
+            android:id="@+id/second_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/icon_shield"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:width="0dp"
+            android:ellipsize="marquee"
+            android:fontFamily="casual"
+            android:gravity="center"
+            android:layout_marginTop="20dp"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+    </LinearLayout>
+    </LinearLayout>

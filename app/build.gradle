@@ -1,0 +1,61 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    compileSdkVersion 33
+    defaultConfig {
+        applicationId "com.a.s.hideAs"
+        minSdkVersion 24
+        targetSdkVersion 33
+        versionCode 4
+        versionName "1.3"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    namespace 'com.a.s.hideAs'
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "androidx.constraintlayout:constraintlayout:2.1.4"
+    implementation 'com.android.support.constraint:constraint-layout:2.0.4'
+    implementation "androidx.multidex:multidex:2.0.1"
+// adding Admob SDK
+    implementation 'com.google.android.gms:play-services-ads:21.4.0'
+
+
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+    implementation 'com.github.clans:fab:1.6.2'
+    implementation 'com.erikagtierrez.multiple_media_picker:multiple-media-picker:1.0.3'
+    implementation 'com.andrognito.pinlockview:pinlockview:2.1.0'
+    implementation 'com.github.GrenderG:Toasty:1.3.0'
+    implementation 'com.github.bumptech.glide:glide:3.7.0'
+
+    implementation 'com.github.chrisbanes:PhotoView:2.3.0'
+    implementation "androidx.viewpager2:viewpager2:1.0.0"
+    implementation 'xyz.doikki.android.dkplayer:dkplayer-java:3.3.7'
+
+
+
+
+    implementation 'xyz.doikki.android.dkplayer:dkplayer-ui:3.3.7'
+
+    implementation 'xyz.doikki.android.dkplayer:player-exo:3.3.7'
+
+    implementation 'xyz.doikki.android.dkplayer:player-ijk:3.3.7'
+
+    implementation 'xyz.doikki.android.dkplayer:videocache:3.3.7'
+     }
+
