@@ -5,7 +5,9 @@ Android için kullanıcı resimlerini galeriden gizleme uygulaması
 Orjinal olan açık kaynaklı proje geliştirilerek Hatalar düzeltilmiş ve nice özellik eklenmiştir.
 [Google Play'de İnceleyin](https://play.google.com/store/apps/details?id=com.a.s.hideAs)
 
-#Özellikler:
+
+##Özellikler:
+
 -Uygulama Arka Plana Atıldığında Uygulama Kilitlenir ve Açılışta tekrar şifre sorar.
 -Kullanıcı Resimleri Geri Yükleyeceği Klasörü Seçebilir.
 -Uygulama Arka Plana Atıldığında Uygulama Önizlemesi Gizlenir.
@@ -18,10 +20,12 @@ Orjinal olan açık kaynaklı proje geliştirilerek Hatalar düzeltilmiş ve nic
 -Android 7'den android 13'e kadar uyumlu
 
 #Hatalar:
+
 -Şimdilik bilinen bir hatası yok.
 Not:Sadece bazen açılışta şifre iki kere sorulur.
 
 #Kurulum:
+
 -Paket Adını Değiştir.
 -MainActivity'deki ADS_ID'yi kendi geçiş reklamı id'niz ile değiştirin.
 -AndroidManifest'teki APPLICATION_ID'yi kendi id'niz ile değiştirin.
@@ -30,6 +34,7 @@ Not:Sadece bazen açılışta şifre iki kere sorulur.
 -Uygulamanın yayınlanmış hali [Google Play](https://play.google.com/store/apps/details?id=com.a.s.hideAs "Google Play")
 
 #TODO 
+
 -Dark mode eklenebilir
 -Cihaz içine depolama seçeneği eklenebilir.
 -Google Drive Yedeklemesi ve Premium Üyelik eklenebilir.
