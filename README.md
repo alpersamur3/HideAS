@@ -1,8 +1,9 @@
 # HideProject
 
+
 Android için kullanıcı resimlerini galeriden gizleme uygulaması
 Orjinal olan açık kaynaklı proje geliştirilerek Hatalar düzeltilmiş ve nice özellik eklenmiştir.
-[Google Play'de İnceleyin] ( https://play.google.com/store/apps/details?id=com.a.s.hideAs "Google Play")
+[Google Play'de İnceleyin] (https://play.google.com/store/apps/details?id=com.a.s.hideAs "Google Play")
 
 #Özellikler:
 -Uygulama Arka Plana Atıldığında Uygulama Kilitlenir ve Açılışta tekrar şifre sorar.
