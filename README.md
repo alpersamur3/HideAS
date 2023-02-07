@@ -6,7 +6,7 @@ Orjinal olan açık kaynaklı proje geliştirilerek Hatalar düzeltilmiş ve nic
 [Google Play'de İnceleyin](https://play.google.com/store/apps/details?id=com.a.s.hideAs)
 
 
-#Özellikler
+# Özellikler:
 
 -Uygulama Arka Plana Atıldığında Uygulama Kilitlenir ve Açılışta tekrar şifre sorar.
 
@@ -28,13 +28,13 @@ Orjinal olan açık kaynaklı proje geliştirilerek Hatalar düzeltilmiş ve nic
 
 -Android 7'den android 13'e kadar uyumlu
 
-#Hatalar:
+# Hatalar:
 
 -Şimdilik bilinen bir hatası yok.
 
 Not:Sadece bazen açılışta şifre iki kere sorulur.
 
-#Kurulum:
+# Kurulum:
 
 -Paket Adını Değiştir.
 
@@ -48,7 +48,7 @@ Not:Sadece bazen açılışta şifre iki kere sorulur.
 
 -Uygulamanın yayınlanmış hali [Google Play](https://play.google.com/store/apps/details?id=com.a.s.hideAs "Google Play")
 
-#TODO 
+# TODO 
 
 -Dark mode eklenebilir
 
