@@ -1,4 +1,4 @@
-# HideProject
+# HideAS
 
 
 Android için kullanıcı resimlerini galeriden gizleme uygulaması
