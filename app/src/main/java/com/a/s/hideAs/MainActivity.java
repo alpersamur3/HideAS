@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
 
     private final static String TAG = MainActivity.class.getSimpleName();
     final Context cont = this;
-    private static final String MAIN_DIR = "/.HidenFiles/";
+    private String MAIN_DIR = null;
 
     private final List<String> displayPaths = new ArrayList<>();
     public static int PERMISSION_REQUEST_CODE=101;
@@ -102,8 +102,7 @@ public class MainActivity extends AppCompatActivity {
     Boolean pickFolder=false;
     int tıklamaSayisi=0;
     String create="create";
-    //change this/Bunu değiştir
-    String ADS_ID="YOUR_INTERSTITIAL_ADS_ID";
+    String ADS_ID=null;
 
 
     @Override
@@ -112,6 +111,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE,WindowManager.LayoutParams.FLAG_SECURE);
         startedSF();
+        MAIN_DIR = getResources().getString(R.string.main_dir);
+        ADS_ID= getResources().getString(R.string.INTERSTITIAL_ADS_ID);
         //TODO Dark Mode Ekle
         //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
         bannerAdView = (AdView) findViewById(R.id.bannerAdView);
@@ -119,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
         LinearLayout imageTool=findViewById(R.id.imageTool);
         Button setting=findViewById(R.id.toolbarSettings);
         toolbar.setLogo(R.drawable.icon);
-        toolbar.setTitle("  HideAS");
+        toolbar.setTitle("  "+getResources().getString(R.string.app_name));
 
         //paylaşılmak üzere önbelleğe alınan resimleri temizler
         deleteDir(new File(getCacheDir()+"/images/"));
@@ -157,11 +158,9 @@ public class MainActivity extends AppCompatActivity {
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
             @Override
             public void onInitializationComplete(InitializationStatus initializationStatus) {
-
-                //Showing a simple Toast Message to the user when The Google AdMob Sdk Initialization is Completed
-                loadBannerAd();
             }
         });
+        loadBannerAd();
 
 
         /*
@@ -287,7 +286,7 @@ public class MainActivity extends AppCompatActivity {
 
                 AlertDialog dialog = userInput.create();
                 dialog.show();
-                sharedSet(getDataDir() + "/.HidenFiles/" );
+                sharedSet(getDataDir() + getResources().getString(R.string.normal_file_folder) );
             }
         });
 */
@@ -358,26 +357,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        /*mInterstitialAd.setAdListener(new AdListener() {
-
-
-            @Override
-            public void onAdFailedToLoad(int i) {
-                super.onAdFailedToLoad(i);
-            }
-
-
-            @Override
-            public void onAdOpened() {
-                super.onAdOpened();
-            }
-
-            @Override
-            public void onAdLoaded() {
-                super.onAdLoaded();
-            }
-        });
-*/
 
     }
 
@@ -401,9 +380,9 @@ public class MainActivity extends AppCompatActivity {
         add=true;
         normaleDon();
         Intent intent= new Intent(this, Gallery.class);
-        intent.putExtra("title","Dosyaları Seçiniz");
+        intent.putExtra("title",R.string.file_picker_title);
         intent.putExtra("mode",1);
-        intent.putExtra("maxSelection",30);
+        intent.putExtra("maxSelection",R.integer.file_picker_max_selectable_file);
         startActivityForResult(intent,OPEN_MEDIA_PICKER);
     }
 
@@ -459,7 +438,7 @@ public class MainActivity extends AppCompatActivity {
         //izin sonucu
         else if(requestCode==PERMISSION_REQUEST_CODE){
             if (isPermissionGranted()){
-                Toasty.success(cont,"İzin Verildi :)").show();
+                Toasty.success(cont,getResources().getString(R.string.access_granted_text)).show();
                 permis=false;
             }
             startedSF();
@@ -467,7 +446,7 @@ public class MainActivity extends AppCompatActivity {
         else if (requestCode==99){
             if (isPermissionGranted()){
                 permis=false;
-                Toasty.success(cont,"İzin Verildi :)").show();
+                Toasty.success(cont,getResources().getString(R.string.access_granted_text)).show();
             }
             startedSF();
         }
@@ -479,7 +458,7 @@ public class MainActivity extends AppCompatActivity {
             String path = getPathFromUri.getPath(this, docUri);
             final String[] secilenitem = new String[1];
             secilenitem[0]=path;
-            String[] items = {"HideAS_reloaded Klasörü",path,"Tıklayıp Klasör Seçiniz"};
+            String[] items = {getResources().getString(R.string.alert_selectable_item),path,getResources().getString(R.string.alert_selectable_item2)};
 
             LayoutInflater eulaInflater = LayoutInflater.from(MainActivity.this);
             View eulaLayout = eulaInflater.inflate(R.layout.dialog_checkbox, null);
@@ -488,12 +467,12 @@ public class MainActivity extends AppCompatActivity {
 
             int checkedItem = 1;
             AlertDialog.Builder builder=new AlertDialog.Builder(cont, R.style.CustomAlertDialog)
-                    .setTitle("Seçilen Dosyalar Nereye Geri Yüklensin ?")
+                    .setTitle(getResources().getString(R.string.reload_alert_title))
                     .setSingleChoiceItems(items, checkedItem, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             if (which==0){
-                                secilenitem[0] ="HideAS_reloaded";
+                                secilenitem[0] =getResources().getString(R.string.reload_folder);
                             }
                             else if (which==1){
                                 secilenitem[0]=items[which];
@@ -503,7 +482,7 @@ public class MainActivity extends AppCompatActivity {
                                 Intent i = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
                                 i.addCategory(Intent.CATEGORY_DEFAULT);
                                 pickFolder=true;
-                                startActivityForResult(Intent.createChooser(i, "Klasör Seçiniz"), 9999);
+                                startActivityForResult(Intent.createChooser(i, getResources().getString(R.string.folder_picker_title)), 9999);
                                 dialog.dismiss();
                             }
                         }
@@ -512,10 +491,10 @@ public class MainActivity extends AppCompatActivity {
 
                     // Specifying a listener allows you to take an action before dismissing the dialog.
                     // The dialog is automatically dismissed when a dialog button is clicked.
-                    .setPositiveButton("Geri Yükle", new DialogInterface.OnClickListener() {
+                    .setPositiveButton(getResources().getString(R.string.reload_text), new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
-                            if (!secilenitem[0].equals("Maalesef sdcard kullanılamaz.")) {
-                                if (!secilenitem[0].equals("HideAS_reloaded")) {
+                            if (!secilenitem[0].equals(getResources().getString(R.string.sdcard_error))) {
+                                if (!secilenitem[0].equals(getResources().getString(R.string.reload_folder))) {
                                     String klasor = secilenitem[0].substring(secilenitem[0].lastIndexOf("/0/") + 3);
                                     if(alwaysUseThis.isChecked()) {
                                         setPath(klasor);
@@ -527,14 +506,14 @@ public class MainActivity extends AppCompatActivity {
                                 }
                             }
                             else{
-                                Toasty.error(cont,"Dosyalar Yüklenmedi",Toast.LENGTH_LONG).show();
+                                Toasty.error(cont,getResources().getString(R.string.error_loading_files),Toast.LENGTH_LONG).show();
                             }
 
                         }
                     })
                     .setView(eulaLayout)
                     // A null listener allows the button to dismiss the dialog and take no further action.
-                    .setNegativeButton("Vazgeç", null)
+                    .setNegativeButton(getResources().getString(R.string.alert_negative_button), null)
                     .setIcon(android.R.drawable.ic_dialog_alert);
             AlertDialog a=builder.create();
             a.show();
@@ -556,7 +535,7 @@ public class MainActivity extends AppCompatActivity {
     // Gizlenen tüm resim ve videoları alır
     public void getSet() {
 
-        File root = new File(getDataDir() + "/.HidenFiles/");
+        File root = new File(getDataDir() + getResources().getString(R.string.normal_file_folder));
 
 
         ArrayList<String> myStrings = null;
@@ -573,9 +552,9 @@ public class MainActivity extends AppCompatActivity {
                     String fileName = f.toString().substring(0, f.toString().lastIndexOf("hideASp"));
                     displayPaths.add(fileName + "png");
                     Log.d("foricipath", fileName + "png");
-                } else if (mas[mas.length - 1].endsWith("hideASg")) {
+                } else if (mas[mas.length - 1].endsWith(getResources().getString(R.string.gif_file_extension))) {
                     Log.d("foricif", f.toString());
-                    String fileName = f.toString().substring(0, f.toString().lastIndexOf("hideASg"));
+                    String fileName = f.toString().substring(0, f.toString().lastIndexOf(getResources().getString(R.string.gif_file_extension)));
                     displayPaths.add(fileName + "gif");
                     Log.d("foricipath", fileName + "gif");
 
@@ -588,9 +567,9 @@ public class MainActivity extends AppCompatActivity {
                     displayPaths.add(fileName + "jpg");
                     Log.d("foricipath", fileName + "jpg");
                 }
-                else if (mas[mas.length - 1].endsWith("hideASm")){
+                else if (mas[mas.length - 1].endsWith("getResources().getString(R.string.media_file_extension)")){
                     Log.d("foricif", f.toString());
-                    String fileName = f.toString().substring(0, f.toString().lastIndexOf("hideASm"));
+                    String fileName = f.toString().substring(0, f.toString().lastIndexOf("getResources().getString(R.string.media_file_extension)"));
                     displayPaths.add(fileName + "mp4");
                     Log.d("foricipath", fileName + "mp4");
 
@@ -633,8 +612,8 @@ public class MainActivity extends AppCompatActivity {
         //TODO cihaz içine depolama seçeneği eklenebilir
         try {
 
-            File root = new File(getDataDir() + "/.HidenFiles/" + dirName);
-            Log.d(TAG, "generateSecretFolder: " + getDataDir()+"/.HidenFiles/" + dirName);
+            File root = new File(getDataDir() + getResources().getString(R.string.normal_file_folder) + dirName);
+            Log.d(TAG, "generateSecretFolder: " + getDataDir()+getResources().getString(R.string.normal_file_folder) + dirName);
             if (!root.exists()) {  // makes a new directory if there is none
                 root.mkdirs();
             }
@@ -666,8 +645,8 @@ public class MainActivity extends AppCompatActivity {
     public void generateFolder(String dirName) {
         try {
 
-            File root = new File(getDataDir()+ "/.HidenFiles/" + dirName);
-            Log.d(TAG, "generateSecretFolder: " + getDataDir() + "/.HidenFiles/" + dirName);
+            File root = new File(getDataDir()+ getResources().getString(R.string.normal_file_folder) + dirName);
+            Log.d(TAG, "generateSecretFolder: " + getDataDir() + getResources().getString(R.string.normal_file_folder) + dirName);
             if (!root.exists()) {  // makes a new directory if there is none
                 root.mkdirs();
             }
@@ -689,14 +668,14 @@ public class MainActivity extends AppCompatActivity {
         if (target!=MAIN_DIR) {
             //share mode
             if (dat.equals("data_in")) {
-                if (name.endsWith(".hideASm")) {
+                if (name.endsWith(getResources().getString(R.string.media_file_extension))) {
                     destination =changeExtension(new File(getCacheDir() + target , name),".mp4");
                 }
-                else if (name.endsWith(".hideASg")){
+                else if (name.endsWith(getResources().getString(R.string.gif_file_extension))){
                     destination =changeExtension(new File(getCacheDir()  + target , name),".gif");
                 }
                 else{
-                    //şuanki uzantı (hideASi)
+                    //şuanki uzantı (getResources().getString(R.string.image_file_extension))
                     String currentExtension=name.substring(0,name.lastIndexOf("."));
                     //orjinal uzantı
                     String extension = currentExtension.substring(currentExtension.lastIndexOf("."));
@@ -718,14 +697,14 @@ public class MainActivity extends AppCompatActivity {
             }
             //eğer geri yüklemeyse
             else if (Objects.equals(dat, "ext")){
-                if (name.endsWith(".hideASm")) {
+                if (name.endsWith(getResources().getString(R.string.media_file_extension))) {
                     destination =changeExtension(new File(Environment.getExternalStorageDirectory() + target , name),".mp4");
                 }
-                else if (name.endsWith(".hideASg")){
+                else if (name.endsWith(getResources().getString(R.string.gif_file_extension))){
                     destination =changeExtension(new File(Environment.getExternalStorageDirectory()  + target , name),".gif");
                 }
                 else{
-                    //şuanki uzantı (hideASi)
+                    //şuanki uzantı (getResources().getString(R.string.image_file_extension))
                     String currentExtension=name.substring(0,name.lastIndexOf("."));
                     //orjinal uzantı
                     String extension = currentExtension.substring(currentExtension.lastIndexOf("."));
@@ -743,15 +722,15 @@ public class MainActivity extends AppCompatActivity {
         //normal kullanım dosyaları cihazdan data klasörüne atar
         else{
             if (name.endsWith(".mp4")) {
-                destination =changeExtension(new File(getDataDir() + target , name),".hideASm");
+                destination =changeExtension(new File(getDataDir() + target , name),getResources().getString(R.string.media_file_extension));
             }
             else if (name.endsWith(".gif")){
-                destination =changeExtension(new File(getDataDir() + target , name),".hideASg");
+                destination =changeExtension(new File(getDataDir() + target , name),getResources().getString(R.string.gif_file_extension));
             }
             else{
-                destination =changeExtension(new File(getDataDir() + target , name),".hideASi");
+                destination =changeExtension(new File(getDataDir() + target , name),getResources().getString(R.string.image_file_extension));
             }
-           //destination = new File(getDataDir() + "/.HidenFiles/", name);
+           //destination = new File(getDataDir() + getResources().getString(R.string.normal_file_folder), name);
         }
             try {
                 File dr = new File(destination.toString().substring(0,destination.toString().lastIndexOf("/")+1));
@@ -769,7 +748,7 @@ public class MainActivity extends AppCompatActivity {
                     if(!dat.equals("data_in")) {
                         source.delete();  // delete file from gallery and send broadcast to update gallery
                         cont.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(new File(location))));
-                        Toasty.success(cont, "Dosyalar Yüklendi :)", Toast.LENGTH_SHORT, true).show();
+                        Toasty.success(cont, getResources().getString(R.string.success_loading_files), Toast.LENGTH_SHORT, true).show();
                     }
                     else{
                         shareSelected.add(destination);
@@ -859,7 +838,7 @@ public class MainActivity extends AppCompatActivity {
         if (!sendedGet()) {
             //resim ekleme yeri acilip kapatildiysa sifre sor.
             if (add) {
-                Toasty.warning(cont, "Güvenliğiniz için şifrenizi tekrar giriniz", 4).show();
+                Toasty.warning(cont, getResources().getString(R.string.toast_security_after_file_upload), 4).show();
                 startedS();
                 Intent intent = new Intent(getBaseContext(), LoginActivity.class);
                 intent.putExtra("hey", true);
@@ -904,7 +883,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         doubleBackToExitPressedOnce = true;
-        Toasty.normal(MainActivity.this, "Çıkmak İçin Bir Kere Daha Basın", Toast.LENGTH_SHORT).show();
+        Toasty.normal(MainActivity.this, getResources().getString(R.string.toast_double_back_exit), Toast.LENGTH_SHORT).show();
 
         new Handler().postDelayed(new Runnable() {
 
@@ -947,7 +926,7 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
             else {
-                Toasty.warning(cont,"Uygulamayı kullanmaya devam etmek için lütfen izin veriniz").show();
+                Toasty.warning(cont,getResources().getString(R.string.toast_request_denied_message)).show();
                 requestPermission();
                 return false;
             }
@@ -960,7 +939,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.v("TAG", "Permission is granted *********");
                 return true;
             } else {
-                Toasty.warning(cont,"Uygulamayı kullanmaya devam etmek için lütfen izin veriniz").show();
+                Toasty.warning(cont,getResources().getString(R.string.toast_request_denied_message)).show();
                 Log.v("TAG", "Permission is not present * * * * ** *");
                 requestPermission();
                 return false;
@@ -1052,7 +1031,7 @@ public class MainActivity extends AppCompatActivity {
 
             shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); // temp permission for receiving app to read this file
             startedS();
-            startActivityForResult(Intent.createChooser(shareIntent, "Uygulama Seçiniz"),10);
+            startActivityForResult(Intent.createChooser(shareIntent, getResources().getString(R.string.share_files_title)),10);
 
         }
 
@@ -1114,7 +1093,7 @@ public class MainActivity extends AppCompatActivity {
                 RelativeLayout back = (RelativeLayout) v.findViewById(R.id.normalView);
                 back.setBackgroundResource(R.color.white);
                 back.setPadding(0, 0, 0, 0);
-                if (displayPaths.get(mSelected2.get(i)).endsWith(".hideASm")) {
+                if (displayPaths.get(mSelected2.get(i)).endsWith(getResources().getString(R.string.media_file_extension))) {
                     selectedButton.setImageResource(R.drawable.media_512x512);
                 } else {
                     selectedButton.setVisibility(View.GONE);
@@ -1168,24 +1147,24 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     new AlertDialog.Builder(context, R.style.CustomAlertDialog)
-                            .setTitle("Seçilen Dosyaları Sil")
-                            .setMessage("Seçilen Dosyaları Kalıcı Olarak Silmek İstediğinizden Emin Misiniz ?")
+                            .setTitle(getResources().getString(R.string.alert_delete_title))
+                            .setMessage(getResources().getString(R.string.alert_delete_message))
 
                             // Specifying a listener allows you to take an action before dismissing the dialog.
                             // The dialog is automatically dismissed when a dialog button is clicked.
-                            .setPositiveButton("Sil", new DialogInterface.OnClickListener() {
+                            .setPositiveButton(getResources().getString(R.string.alert_delete_positive), new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     // Continue with delete operation
                                     if (delFiles()) {
-                                        Toasty.success(cont, "Seçilen Dosyalar Silindi").show();
+                                        Toasty.success(cont, getResources().getString(R.string.toast_success_delete)).show();
                                     } else {
-                                        Toasty.error(cont, "Seçilen dosyalar silinemedi").show();
+                                        Toasty.error(cont, getResources().getString(R.string.toast_error_delete)).show();
                                     }
                                 }
                             })
 
                             // A null listener allows the button to dismiss the dialog and take no further action.
-                            .setNegativeButton("Vazgeç", null)
+                            .setNegativeButton(getResources().getString(R.string.alert_negative_button), null)
                             .setIcon(android.R.drawable.ic_dialog_alert)
                             .show();
                 }
@@ -1193,15 +1172,17 @@ public class MainActivity extends AppCompatActivity {
             reload.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    final String[] secilenitem = {""};
-                    String[] items = {"HideAS_reloaded Klasörü", "Tıklayıp Klasör Seçiniz"};
+                    final String[] secilenitem = {getResources().getString(R.string.alert_selectable_item)};
+                    String[] items = {getResources().getString(R.string.alert_selectable_item), getResources().getString(R.string.alert_selectable_item2)};
                     if (!getSPath().equals("")) {
-                        items = new String[]{getSPath()+" Klasörü", "HideAS_reloaded Klasörü","Tıklayıp Klasör Seçiniz"};
+                        items = new String[]{getSPath()+" "+getResources().getString(R.string.alert_selectable_item3), getResources().getString(R.string.alert_selectable_item), getResources().getString(R.string.alert_selectable_item2)};
+                        secilenitem[0]=getSPath();
                     }
                     int leng=items.length;
                     int checkedItem = 0;
+                    String[] finalItems = items;
                     AlertDialog.Builder builder=new AlertDialog.Builder(context, R.style.CustomAlertDialog)
-                            .setTitle("Seçilen Dosyalar Nereye Geri Yüklensin ?")
+                            .setTitle(getResources().getString(R.string.reload_alert_title))
                             .setSingleChoiceItems(items, checkedItem, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
@@ -1210,24 +1191,24 @@ public class MainActivity extends AppCompatActivity {
                                             secilenitem[0]=getSPath();
                                         }
                                         else if(which==1){
-                                            secilenitem[0]="HideAS_reloaded";
+                                            secilenitem[0]=getResources().getString(R.string.reload_folder);
                                         }
                                         else if(which==2){
                                             Intent i = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
                                             i.addCategory(Intent.CATEGORY_DEFAULT);
                                             pickFolder=true;
-                                            startActivityForResult(Intent.createChooser(i, "Klasör Seçiniz"), 9999);
+                                            startActivityForResult(Intent.createChooser(i, getResources().getString(R.string.folder_picker_title)), 9999);
                                             dialog.dismiss();
                                         }
                                     }
                                     else if (leng==2){
                                         if (which==0){
-                                            secilenitem[0]="HideAS_reloaded";
+                                            secilenitem[0]=getResources().getString(R.string.reload_folder);
                                         }
                                         else if(which==1){
                                             Intent i = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
                                             i.addCategory(Intent.CATEGORY_DEFAULT);
-                                            startActivityForResult(Intent.createChooser(i, "Klasör Seçiniz"), 9999);
+                                            startActivityForResult(Intent.createChooser(i, getResources().getString(R.string.folder_picker_title)), 9999);
                                             dialog.dismiss();
                                         }
                                     }
@@ -1237,13 +1218,18 @@ public class MainActivity extends AppCompatActivity {
 
                             // Specifying a listener allows you to take an action before dismissing the dialog.
                             // The dialog is automatically dismissed when a dialog button is clicked.
-                            .setPositiveButton("Geri Yükle", new DialogInterface.OnClickListener() {
+                            .setPositiveButton(getResources().getString(R.string.reload_text), new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
-                                    reloadFiles("HideAS_reloaded");
+                                    if (finalItems.length==2) {
+                                        reloadFiles(getResources().getString(R.string.reload_folder));
+                                    }
+                                    else{
+                                        reloadFiles(getSPath());
+                                    }
                                 }
                             })
                             // A null listener allows the button to dismiss the dialog and take no further action.
-                            .setNegativeButton("Vazgeç", null)
+                            .setNegativeButton(getResources().getString(R.string.alert_negative_button), null)
                             .setIcon(android.R.drawable.ic_dialog_alert);
                     AlertDialog a=builder.create();
                     a.show();
@@ -1278,7 +1264,7 @@ public class MainActivity extends AppCompatActivity {
                     setting.setVisibility(View.VISIBLE);
                     bannerAdView.setVisibility(View.VISIBLE);
                 }
-                if (displayPaths.get(position).endsWith(".hideASm")) {
+                if (displayPaths.get(position).endsWith(getResources().getString(R.string.media_file_extension))) {
                     selectedButton.setImageResource(R.drawable.media_512x512);
                 } else {
                     selectedButton.setVisibility(View.GONE);
@@ -1326,7 +1312,7 @@ public class MainActivity extends AppCompatActivity {
             hangisi = v;
             tv.setText(String.valueOf(mSelected.size()));
 
-            if (displayPaths.get(position).endsWith("hideASm")) {
+            if (displayPaths.get(position).endsWith(getResources().getString(R.string.media_file_extension))) {
 
                 Glide.with(context).load(displayPaths.get(position))
                         .asBitmap()
@@ -1334,10 +1320,10 @@ public class MainActivity extends AppCompatActivity {
                         .into(picturesView);
                 selectedButton.setVisibility(View.VISIBLE);
 
-            } else if (displayPaths.get(position).endsWith("hideASi")) {
+            } else if (displayPaths.get(position).endsWith(getResources().getString(R.string.image_file_extension))) {
 
                 Glide.with(context).load(displayPaths.get(position)).into(picturesView);
-            } else if (displayPaths.get(position).endsWith("hideASg")) {
+            } else if (displayPaths.get(position).endsWith(getResources().getString(R.string.gif_file_extension))) {
                 Glide.with(context).load(displayPaths.get(position)).asGif().crossFade().diskCacheStrategy(DiskCacheStrategy.SOURCE).into(picturesView);
             }
 

@@ -1,12 +1,101 @@
 <resources>
     <string name="app_name">HideAs</string>
+   <!-- MainActivity variables-->
+    <string name="main_dir">/.HidenFiles/</string>
+    <string name="file_picker_title">Dosyaları Seçiniz</string>
+    <string name="folder_picker_title">Klasör Seçiniz</string>
+    <string name="share_files_title">Uygulama Seçiniz</string>
+    <integer name="file_picker_max_selectable_file">30</integer>
+    <string name="alert_selectable_item">HideAS_reloaded Klasörü</string>
+    <string name="alert_delete_title">Seçilen Dosyaları Sil</string>
+    <string name="alert_delete_message">Seçilen Dosyaları Kalıcı Olarak Silmek İstediğinizden Emin Misiniz ?</string>
+    <string name="alert_delete_positive">Sil</string>
+    <string name="alert_selectable_item2">Tıklayıp Klasör Seçiniz</string>
+    <string name="alert_selectable_item3">Klasörü</string>
+    <string name="reload_alert_title">Seçilen Dosyalar Nereye Geri Yüklensin ?</string>
+    <string name="sdcard_error">Maalesef sdcard kullanılamaz.</string>
+    <string name="error_loading_files">Dosyalar Yüklenemedi</string>
+    <string name="success_loading_files">Dosyalar Yüklendi</string>
+    <string name="single_succes_loading_files">Dosya Geri Yüklendi :)</string>
+    <string name="alert_negative_button">Vazgeç</string>
+    <string name="reload_text">Geri Yükle</string>
+    <string name="delete_text">Öğeyi Sil</string>
+    <string name="share_text">Paylaş</string>
 
-    <!-- Strings related to Settings -->
+    <string name="access_granted_text">İzin Verildi :)</string>
+    <string name="access_denied_text">İzin Reddedildi</string>
 
-    <!-- Example General settings -->
+    <string name="password_alert_save_button">Kaydet</string>
 
-    <!-- Example settings for Data & Sync -->
 
-    <!-- Example settings for Notifications -->
+    <string name="settings_title">Ayarlar</string>
+
+    <string name="feedback_subject">HideAS Hakkında</string>
+    <string name="feedback_text">Message</string>
+    <string name="feedback_mail">alpersamur0705@gmail.com</string>
+
+    <string name="toast_security_after_file_upload">Güvenliğiniz İçin Şifrenizi Tekrar Giriniz</string>
+    <string name="toast_double_back_exit">Çıkmak İçin Bir Kere Daha Basın</string>
+    <string name="toast_request_denied_message">Uygulamayı kullanmaya devam etmek için lütfen izin veriniz</string>
+    <string name="toast_success_delete">Seçilen Dosyalar Silindi</string>
+    <string name="toast_error_delete">Seçilen Dosyalar Silinemedi</string>
+    <string name="toast_pin_changed">Yeni Şifreniz : </string>
+    <string name="toast_pin_changed_error_5letter">Pin 5 haneli Olmalıdır.</string>
+    <string name="toast_warning_create_pin">5 Haneli Bir Şifre Oluşturunuz</string>
+    <string name="toast_success_created_pin">Başarılı! Şifreniz: </string>
+    <string name="toast_wrong_password">Yanlış Şifre!</string>
+
+
+    <!--HelpActivity-->
+    <string name="app_description"> Bu uygulama resim ve videolarınızı gizlemek içindir.Dosyalarınız izinsiz olarak hiçbir yere yüklenmez ve telefon depolamasında saklanır.\nResimleriniz ve videolarınız normal telefonların erişemediği(android 11+) konuma gizlenir.\nAyrıca pin kodunuzda şifrelenerek saklanır.Şifrelenmis olan şifreniz cihaz içinde saklanır.</string>
+    <string name="app_danger">Uygulamayı silerseniz ya da uygulama verilerini sıfırlarsanız dosyalarınız silinir ve geri döndürülemez.</string>
+    <string name="app_usage">Kullanım:\nPin kodunuzu girin.\nMenü tuşuna basın.\nDosyalarınızı seçin.\nAlt taraftaki butona iki kez basın.\nArtık hazırsınız :) Yorumlarınızı bekliyorum…</string>
+
+    <!--activity_help.xml-->
+    <string name="welcome_my_app">"HideAS'a Hoşgeldiniz :)"</string>
+
+    <!--activity_login.xml-->
+    <string name="enter_pin_text">Şifrenizi Giriniz</string>
+
+    <!--activity_settings.xml-->
+
+    <string name="settings_change_pin">Şifreyi Değiştir</string>
+    <string name="settings_feedback">Geri Bildirim Gönder(Öneride Bulun)</string>
+    <string name="settings_help">Yardım</string>
+    <string name="settings_shuffle_pin_code">Karışık Pin Kodu Girişi</string>
+
+    <string name="normal_file_folder">/.HidenFiles/</string>
+    <string name="media_file_extension">.hideASm</string>
+    <string name="gif_file_extension">.hideASg</string>
+    <string name="image_file_extension">.hideASi</string>
+    <string name="reload_folder">HideAS_reloaded</string>
+
+    
+    <!--Ads Values-->
+    <string name="INTERSTITIAL_ADS_ID">ca-app-pub-2420880911449879/2142068714</string>
+    <string name="ADMOB_APP_ID">ca-app-pub-2420880911449879~1855689331</string>
+    <string name="BANNER_AD_ID">ca-app-pub-2420880911449879/5282678899</string>
+    
+   <!--dkplayer(exoplayer)strings-->
+    <color name="dkplayer_background_color">#4D000000</color>
+    <color name="dkplayer_theme_color">#39C5BB</color>
+    <color name="dkplayer_theme_color_translucent">#9939C5BB</color>
+    <dimen name="dkplayer_controller_height">46dp</dimen>
+    <dimen name="dkplayer_controller_icon_padding">12dp</dimen>
+    <dimen name="dkplayer_controller_seekbar_max_size">1dp</dimen>
+    <dimen name="dkplayer_controller_seekbar_size_n">14dp</dimen>
+    <dimen name="dkplayer_controller_seekbar_size_s">14dp</dimen>
+    <dimen name="dkplayer_controller_text_size">16sp</dimen>
+    <dimen name="dkplayer_controller_time_text_size">14sp</dimen>
+    <dimen name="dkplayer_default_spacing">10dp</dimen>
+    <dimen name="dkplayer_play_btn_size">50dp</dimen>
+    <string name="dkplayer_continue_play">İzlemeye Devam Et</string>
+    <string name="dkplayer_error_message">Bir Hata Oluştu</string>
+    <string name="dkplayer_lock_tip">!</string>
+    <string name="dkplayer_locked">Ekran Kilitlendi</string>
+    <string name="dkplayer_replay">Yeniden Başlat</string>
+    <string name="dkplayer_retry">Tekrar Dene</string>
+    <string name="dkplayer_unlocked">Ekran Kilidi Açıldı</string>
+    <string name="dkplayer_wifi_tip"></string>
 
 </resources>

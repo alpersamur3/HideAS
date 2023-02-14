@@ -28,7 +28,7 @@
                 android:fontFamily="sans-serif-bold"
                 android:gravity="center"
                 android:maxLines="1"
-                android:text="HideAS'a Hoşgeldiniz :)"
+                android:text="@string/welcome_my_app"
                 android:textColor="@color/white"
                 android:layout_gravity="center"
                 android:textSize="25sp"

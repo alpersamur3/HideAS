@@ -38,17 +38,13 @@ Not:Sadece bazen açılışta şifre iki kere sorulur.
 
 -Paket Adını Değiştir.
 
--MainActivity'deki ADS_ID'yi kendi geçiş reklamı id'niz ile değiştirin.
+-strings.xml'deki ads_id'leri değiştirin.
 
--AndroidManifest'teki APPLICATION_ID'yi kendi id'niz ile değiştirin.
-
--res/activity_main.xml'deki adUnitId'yi kendi banner id'niz ile değiştirin.
-
--Hazırsınız :D 
+-Hazırsınız :D
 
 -Uygulamanın yayınlanmış hali [Google Play](https://play.google.com/store/apps/details?id=com.a.s.hideAs "Google Play")
 
-# TODO 
+# TODO
 
 -Dark mode eklenebilir
 
@@ -59,7 +55,6 @@ Not:Sadece bazen açılışta şifre iki kere sorulur.
 -Tümünü Seç Butonu
 
 <img src="https://i.hizliresim.com/9wy5w4w.jpg" alt="Landing page" height="270px"> <img src="https://i.hizliresim.com/od21ufn.jpg" alt="Landing page" height="270px"> <img src="https://i.hizliresim.com/d0lzi5u.jpg" alt="Landing page" height="270px"> <img src="https://i.hizliresim.com/t0un63p.jpg" alt="Landing page" height="270px"> <img src="https://i.hizliresim.com/dr1f1ji.jpg" alt="Landing page" height="270px"> <img src="https://i.hizliresim.com/bxsmpkc.jpg" alt="Landing page" height="270px">
-
 
 
 

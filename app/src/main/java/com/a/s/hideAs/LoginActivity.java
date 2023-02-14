@@ -83,7 +83,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onStart();
         check = getPin();
         if(check.isEmpty()) {
-            Toasty.warning(LoginActivity.this, "5 Haneli Bir Şifre Oluşturunuz", Toast.LENGTH_LONG, true).show();
+            Toasty.warning(LoginActivity.this, getResources().getString(R.string.toast_warning_create_pin), Toast.LENGTH_LONG, true).show();
         }
     }
 
@@ -142,7 +142,7 @@ public class LoginActivity extends AppCompatActivity {
             if (check.isEmpty()) {
                 setPin(pin);
                 send();
-                Toasty.success(LoginActivity.this, "Başarılı! Şifreniz: " + pin, Toast.LENGTH_LONG, true).show();
+                Toasty.success(LoginActivity.this, getResources().getString(R.string.toast_success_created_pin) + pin, Toast.LENGTH_LONG, true).show();
                 Intent intent = new Intent(getBaseContext(), MainActivity.class);
                 startActivity(intent);
             }
@@ -159,7 +159,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
             else {
-                Toasty.error(LoginActivity.this, "Yanlış Şifre!", Toast.LENGTH_SHORT, true).show();
+                Toasty.error(LoginActivity.this, getResources().getString(R.string.toast_wrong_password), Toast.LENGTH_SHORT, true).show();
             }
             }
 

@@ -56,7 +56,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         Toolbar toolbar =  findViewById(R.id.toolbar);
         toolbar.getNavigationIcon().setColorFilter(Color.rgb(255,255,255), PorterDuff.Mode.SRC_IN); // White arrow
-        toolbar.setTitle("Ayarlar");
+        toolbar.setTitle(getResources().getString(R.string.settings_title));
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,9 +90,9 @@ public class SettingsActivity extends AppCompatActivity {
          feedback.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View v) {
-                 Intent intent = new Intent (Intent.ACTION_VIEW , Uri.parse("mailto:" + "alpersamur0705@gmail.com"));
-                 intent.putExtra(Intent.EXTRA_SUBJECT, "HideAS Hakkında");
-                 intent.putExtra(Intent.EXTRA_TEXT, "Message");
+                 Intent intent = new Intent (Intent.ACTION_VIEW , Uri.parse("mailto:" + getResources().getString(R.string.feedback_mail)));
+                 intent.putExtra(Intent.EXTRA_SUBJECT, getResources().getString(R.string.feedback_subject));
+                 intent.putExtra(Intent.EXTRA_TEXT, getResources().getString(R.string.feedback_text));
                  startActivity(intent);
                  feed=true;
              }
@@ -119,7 +119,7 @@ public class SettingsActivity extends AppCompatActivity {
 
 
                     // Making input error prone, user can't use more or less than 5 numbers
-                 userInput.setCancelable(false).setPositiveButton("Kaydet", new DialogInterface.OnClickListener() {
+                 userInput.setCancelable(false).setPositiveButton(getResources().getString(R.string.password_alert_save_button), new DialogInterface.OnClickListener() {
                              public void onClick(DialogInterface box, int id) {
 
                                  String newPin = dialogEdit.getText().toString();
@@ -136,16 +136,16 @@ public class SettingsActivity extends AppCompatActivity {
                                      myeditor.putString("PinSalt", salt);
                                      myeditor.apply();
 
-                                     Toasty.success(getBaseContext(),"PIN changed to " + newPin, Toast.LENGTH_SHORT, true).show();
+                                     Toasty.success(getBaseContext(),getResources().getString(R.string.toast_pin_changed) + newPin, Toast.LENGTH_SHORT, true).show();
                                  }
                                  else {
                                      box.cancel();
-                                     Toasty.warning(getBaseContext(),"PIN must be 5 digits", Toast.LENGTH_SHORT, true).show();
+                                     Toasty.warning(getBaseContext(),getResources().getString(R.string.toast_pin_changed_error_5letter), Toast.LENGTH_SHORT, true).show();
                                  }
 
                              }
                          })
-                         .setNegativeButton("Cancel",
+                         .setNegativeButton(getResources().getString(R.string.alert_negative_button),
                                  new DialogInterface.OnClickListener() {
                                      public void onClick(DialogInterface box, int id) {
                                          box.cancel();

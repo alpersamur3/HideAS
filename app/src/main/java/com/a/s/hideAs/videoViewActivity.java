@@ -23,6 +23,7 @@ public class videoViewActivity extends AppCompatActivity {
     String clickedVideoPath;
     Boolean create=true;
     String back="no";
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +40,7 @@ public class videoViewActivity extends AppCompatActivity {
 
         videoView.setUrl(String.valueOf(Uri.fromFile(new File(clickedVideoPath))));
         StandardVideoController controller = new StandardVideoController(this);
-        controller.addDefaultControlComponent("HideAS", false);
+        controller.addDefaultControlComponent(getResources().getString(R.string.app_name), false);
         videoView.setVideoController(controller);
         videoView.startFullScreen();
 
@@ -122,6 +123,7 @@ public class videoViewActivity extends AppCompatActivity {
         super.onDestroy();
         videoView.release();
     }
+
 
 
 

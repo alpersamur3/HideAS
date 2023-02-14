@@ -24,8 +24,8 @@
         <com.google.android.gms.ads.AdView
             xmlns:ads= "http://schemas.android.com/apk/res-auto"
             android:layout_alignParentBottom= "true"
-            ads:adUnitId= "YOUR_BANNER_AD_ID"
-            android:id= "@+id/bannerAdView"
+            ads:adUnitId="@string/BANNER_AD_ID"
+            android:id="@+id/bannerAdView"
             ads:adSize= "BANNER"
             android:layout_width= "wrap_content"
             android:layout_height= "50dp">

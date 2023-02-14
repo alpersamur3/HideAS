@@ -14,12 +14,16 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.DocumentsContract;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 import androidx.viewpager2.widget.ViewPager2;
@@ -45,13 +49,15 @@ public class GalleryV extends AppCompatActivity {
     String back="no";
 
     ViewPager2 viewPager;
-    private static final String MAIN_DIR = "/.HidenFiles/";
+    Boolean pickFolder=false;
+    private String MAIN_DIR = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.galleryv);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE,WindowManager.LayoutParams.FLAG_SECURE);
+        MAIN_DIR = getResources().getString(R.string.main_dir);
         viewPager = (ViewPager2) findViewById(R.id.viewPager);
         Button backButton=(Button)findViewById(R.id.backButton);
         Button delButton=(Button) findViewById(R.id.delete);
@@ -91,26 +97,26 @@ public class GalleryV extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 new AlertDialog.Builder(GalleryV.this, R.style.CustomAlertDialog)
-                        .setTitle("Seçilen Dosyayı Sil")
-                        .setMessage("Seçilen Dosyayı Kalıcı Olarak Silmek İstediğinizden Emin Misiniz ?")
+                        .setTitle(getResources().getString(R.string.alert_delete_title))
+                        .setMessage(getResources().getString(R.string.alert_delete_message))
 
                         // Specifying a listener allows you to take an action before dismissing the dialog.
                         // The dialog is automatically dismissed when a dialog button is clicked.
-                        .setPositiveButton("Sil", new DialogInterface.OnClickListener() {
+                        .setPositiveButton(getResources().getString(R.string.alert_delete_positive), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 // Continue with delete operation
                                 ArrayList<String> sil=new ArrayList<String >();
                                 sil.add(pathsList.get(viewPager.getCurrentItem()));
                                 if (delFiles(sil,viewPager.getCurrentItem())) {
-                                    Toasty.success(cont, "Seçilen Dosyayı Silindi").show();
+                                    Toasty.success(cont, getResources().getString(R.string.toast_success_delete)).show();
                                 } else {
-                                    Toasty.error(cont, "Seçilen dosya silinemedi").show();
+                                    Toasty.error(cont, getResources().getString(R.string.toast_error_delete)).show();
                                 }
                             }
                         })
 
                         // A null listener allows the button to dismiss the dialog and take no further action.
-                        .setNegativeButton("Vazgeç", null)
+                        .setNegativeButton(getResources().getString(R.string.alert_negative_button), null)
                         .setIcon(android.R.drawable.ic_dialog_alert)
                         .show();
 
@@ -127,30 +133,163 @@ public class GalleryV extends AppCompatActivity {
         reloadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AlertDialog.Builder(GalleryV.this, R.style.CustomAlertDialog)
-                        .setTitle("Seçilen Dosyayı Geri Yükle")
-                        .setMessage("Seçilen Dosyayı Geri Yüklemek(HideAS_reloaded klasörüne aktarılacak) İstediğinizden Emin Misiniz ?")
+
+                final String[] secilenitem = {getResources().getString(R.string.alert_selectable_item)};
+                String[] items = {getResources().getString(R.string.alert_selectable_item), getResources().getString(R.string.alert_selectable_item2)};
+                if (!getSPath().equals("")) {
+                    items = new String[]{getSPath()+" "+getResources().getString(R.string.alert_selectable_item3), getResources().getString(R.string.alert_selectable_item), getResources().getString(R.string.alert_selectable_item2)};
+                    secilenitem[0]=getSPath();
+                }
+                int leng=items.length;
+                int checkedItem = 0;
+                String[] finalItems = items;
+                AlertDialog.Builder builder=new AlertDialog.Builder(GalleryV.this, R.style.CustomAlertDialog)
+                        .setTitle(getResources().getString(R.string.reload_alert_title))
+                        .setSingleChoiceItems(items, checkedItem, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                if (leng==3){
+                                    if (which==0){
+                                        secilenitem[0]=getSPath();
+                                    }
+                                    else if(which==1){
+                                        secilenitem[0]=getResources().getString(R.string.reload_folder);
+                                    }
+                                    else if(which==2){
+                                        Intent i = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
+                                        i.addCategory(Intent.CATEGORY_DEFAULT);
+                                        pickFolder=true;
+                                        startActivityForResult(Intent.createChooser(i, getResources().getString(R.string.folder_picker_title)), 9999);
+                                        dialog.dismiss();
+                                    }
+                                }
+                                else if (leng==2){
+                                    if (which==0){
+                                        secilenitem[0]=getResources().getString(R.string.reload_folder);
+                                    }
+                                    else if(which==1){
+                                        Intent i = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
+                                        i.addCategory(Intent.CATEGORY_DEFAULT);
+                                        startActivityForResult(Intent.createChooser(i, getResources().getString(R.string.folder_picker_title)), 9999);
+                                        dialog.dismiss();
+                                    }
+                                }
+                            }
+                        })
+                        //.setMessage("Seçilen Dosyaları Geri Yüklemek(HideAS_reloaded klasörüne aktarılacak) İstediğinizden Emin Misiniz ?")
 
                         // Specifying a listener allows you to take an action before dismissing the dialog.
                         // The dialog is automatically dismissed when a dialog button is clicked.
-                        .setPositiveButton("Geri Yükle", new DialogInterface.OnClickListener() {
+                        .setPositiveButton(getResources().getString(R.string.reload_text), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 ArrayList<String> reloaded=new ArrayList<String >();
                                 reloaded.add(pathsList.get(viewPager.getCurrentItem()));
-                                reloadFiles(reloaded,viewPager.getCurrentItem());
+                                if (finalItems.length==2) {
+                                    reloadFiles(reloaded, viewPager.getCurrentItem(),getResources().getString(R.string.reload_folder));
+                                }
+                                else{
+                                    reloadFiles(reloaded, viewPager.getCurrentItem(),secilenitem[0]);
+                                }
                             }
                         })
-
                         // A null listener allows the button to dismiss the dialog and take no further action.
-                        .setNegativeButton("Vazgeç", null)
-                        .setIcon(android.R.drawable.ic_dialog_alert)
-                        .show();
+                        .setNegativeButton(getResources().getString(R.string.alert_negative_button), null)
+                        .setIcon(android.R.drawable.ic_dialog_alert);
+                AlertDialog a=builder.create();
+                a.show();
             }
         });
 
 
     }
 
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode==9999){
+
+            Uri uri = data.getData();
+            Uri docUri = DocumentsContract.buildDocumentUriUsingTree(uri,
+                    DocumentsContract.getTreeDocumentId(uri));
+            String path = getPathFromUri.getPath(this, docUri);
+            final String[] secilenitem = new String[1];
+            secilenitem[0]=path;
+            String[] items = {getResources().getString(R.string.alert_selectable_item),path,getResources().getString(R.string.alert_selectable_item2)};
+
+            LayoutInflater eulaInflater = LayoutInflater.from(GalleryV.this);
+            View eulaLayout = eulaInflater.inflate(R.layout.dialog_checkbox, null);
+            CheckBox alwaysUseThis = (CheckBox)eulaLayout.findViewById(R.id.checkBox);
+            alwaysUseThis.setChecked(true);
+
+            int checkedItem = 1;
+            AlertDialog.Builder builder=new AlertDialog.Builder(cont, R.style.CustomAlertDialog)
+                    .setTitle(getResources().getString(R.string.reload_alert_title))
+                    .setSingleChoiceItems(items, checkedItem, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if (which==0){
+                                secilenitem[0] =getResources().getString(R.string.reload_folder);
+                            }
+                            else if (which==1){
+                                secilenitem[0]=items[which];
+
+                            }
+                            else if (which == 2) {
+                                Intent i = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
+                                i.addCategory(Intent.CATEGORY_DEFAULT);
+                                pickFolder=true;
+                                startActivityForResult(Intent.createChooser(i, getResources().getString(R.string.folder_picker_title)), 9999);
+                                dialog.dismiss();
+                            }
+                        }
+                    })
+                    //.setMessage("Seçilen Dosyaları Geri Yüklemek(HideAS_reloaded klasörüne aktarılacak) İstediğinizden Emin Misiniz ?")
+
+                    // Specifying a listener allows you to take an action before dismissing the dialog.
+                    // The dialog is automatically dismissed when a dialog button is clicked.
+                    .setPositiveButton(getResources().getString(R.string.reload_text), new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            ArrayList<String> reloaded=new ArrayList<String >();
+                            reloaded.add(pathsList.get(viewPager.getCurrentItem()));
+                            if (!secilenitem[0].equals(getResources().getString(R.string.sdcard_error))) {
+                                if (!secilenitem[0].equals(getResources().getString(R.string.reload_folder))) {
+                                    String klasor = secilenitem[0].substring(secilenitem[0].lastIndexOf("/0/") + 3);
+                                    if(alwaysUseThis.isChecked()) {
+                                        setPath(klasor);
+                                    }
+                                    reloadFiles(reloaded, viewPager.getCurrentItem(),klasor);
+                                }
+                                else{
+                                    reloadFiles(reloaded,viewPager.getCurrentItem(),secilenitem[0]);
+                                }
+                            }
+                            else{
+                                Toasty.error(cont,getResources().getString(R.string.error_loading_files),Toast.LENGTH_LONG).show();
+                            }
+
+                        }
+                    })
+                    .setView(eulaLayout)
+                    // A null listener allows the button to dismiss the dialog and take no further action.
+                    .setNegativeButton(getResources().getString(R.string.alert_negative_button), null)
+                    .setIcon(android.R.drawable.ic_dialog_alert);
+            AlertDialog a=builder.create();
+            a.show();
+        }
+    }
+
+    public String getSPath(){
+        SharedPreferences prefs = getSharedPreferences("activityC", Context.MODE_PRIVATE);
+        String result=prefs.getString("dir","");
+        return result;
+    }
+    public void setPath(String dir){
+        SharedPreferences prefs = getSharedPreferences("activityC", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("dir",dir);
+        editor.commit();
+    }
 
     public void reloadView(int position){
         mViewPagerAdapter = new ViewPagerAdapter(pathsList, this);
@@ -175,20 +314,20 @@ public class GalleryV extends AppCompatActivity {
         File file=new File(path,resimAdi);
         deleted = file.delete();
 
-        Toasty.success(cont,"Dosya Silindi").show();
+        Toasty.success(cont,getResources().getString(R.string.toast_success_delete)).show();
         pathsList.remove(position);
         reloadView(position);
         return deleted;
 
     }
     //dosyaları geri yükle HideAS_reloaded konumuna
-    public Boolean reloadFiles(ArrayList<String> location,int position){
+    public Boolean reloadFiles(ArrayList<String> location,int position,String target){
 
         List<String> resimAdiList=getFileNames(location);
         //resimin adini cevirip string olarak aldık
         String resimAdi = resimAdiList.get(0);
         resimAdiList.remove(0);
-        moveFile(location.get(0), resimAdi, "/HideAS_reloaded/", "ext");
+        moveFile(location.get(0), resimAdi, "/"+target+"/", "ext");
 
         pathsList.remove(position);
         reloadView(position);
@@ -226,7 +365,7 @@ public class GalleryV extends AppCompatActivity {
 
             shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); // temp permission for receiving app to read this file
             startedS();
-            startActivityForResult(Intent.createChooser(shareIntent, "Uygulama Seçiniz"),10);
+            startActivityForResult(Intent.createChooser(shareIntent, getResources().getString(R.string.share_files_title)),10);
 
         }
 
@@ -260,10 +399,10 @@ Dosya taşıma,geri yükleme,paylaşmak için cache ye atma gibi pek çok işlev
         if (target!=MAIN_DIR) {
             //share mode
             if (dat.equals("data_in")) {
-                if (name.endsWith(".hideASm")) {
+                if (name.endsWith(getResources().getString(R.string.media_file_extension))) {
                     destination =changeExtension(new File(getCacheDir() + target , name),".mp4");
                 }
-                else if (name.endsWith(".hideASg")){
+                else if (name.endsWith(getResources().getString(R.string.gif_file_extension))){
                     destination =changeExtension(new File(getCacheDir()  + target , name),".gif");
                 }
                 else{
@@ -289,10 +428,10 @@ Dosya taşıma,geri yükleme,paylaşmak için cache ye atma gibi pek çok işlev
             }
             //eğer geri yüklemeyse
             else if (Objects.equals(dat, "ext")){
-                if (name.endsWith(".hideASm")) {
+                if (name.endsWith(getResources().getString(R.string.media_file_extension))) {
                     destination =changeExtension(new File(Environment.getExternalStorageDirectory() + target , name),".mp4");
                 }
-                else if (name.endsWith(".hideASg")){
+                else if (name.endsWith(getResources().getString(R.string.gif_file_extension))){
                     destination =changeExtension(new File(Environment.getExternalStorageDirectory()  + target , name),".gif");
                 }
                 else{
@@ -327,7 +466,7 @@ Dosya taşıma,geri yükleme,paylaşmak için cache ye atma gibi pek çok işlev
                 if(!dat.equals("data_in")) {
                     source.delete();  // delete file from gallery and send broadcast to update gallery
                     cont.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(new File(location))));
-                    Toasty.success(cont, "Dosya Geri Yüklendi :)", Toast.LENGTH_SHORT, true).show();
+                    Toasty.success(cont, getResources().getString(R.string.single_succes_loading_files), Toast.LENGTH_SHORT, true).show();
                 }
 
 
@@ -361,7 +500,13 @@ Dosya taşıma,geri yükleme,paylaşmak için cache ye atma gibi pek çok işlev
         else{
             sendedSF();
         }
-        startedSF();
+        if(pickFolder){
+            pickFolder=false;
+
+        }
+        else {
+            startedSF();
+        }
         super.onStart();
     }
 
